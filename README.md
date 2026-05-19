@@ -52,3 +52,4 @@ Test declenchement webhook CI
 Test webhook 2 
 Test webhook 2 
 Test final webhook 
+test webhook nouveau job 
