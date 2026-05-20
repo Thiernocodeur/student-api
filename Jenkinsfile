@@ -26,6 +26,13 @@ pipeline {
                 }
             }
         }
+        
+         stage('Lint') {
+    steps {
+        bat 'mvn checkstyle:check'
+    }
+     }
+         
         stage('Couverture') {
             steps {
                 bat 'mvn verify'
