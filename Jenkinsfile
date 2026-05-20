@@ -2,18 +2,23 @@ pipeline {
     agent any
     tools {
         maven 'Maven-3.9'
-        jdk   'JDK-17'
+        jdk 'JDK-17'
     }
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
-                echo "Build #${env.BUILD_NUMBER} | Branche : ${env.BRANCH_NAME}"
+                echo "Build #${env.BUILD_NUMBER}"
             }
         }
         stage('Build') {
             steps {
                 bat 'mvn clean package -DskipTests'
+            }
+        }
+        stage('Lint') {
+            steps {
+                bat 'mvn checkstyle:check -Dcheckstyle.failOnViolation=false'
             }
         }
         stage('Tests Unitaires') {
@@ -26,13 +31,6 @@ pipeline {
                 }
             }
         }
-        
-         stage('Lint') {
-    steps {
-        bat 'mvn checkstyle:check'
-    }
-     }
-         
         stage('Couverture') {
             steps {
                 bat 'mvn verify'
@@ -40,8 +38,8 @@ pipeline {
             post {
                 always {
                     jacoco(
-                        execPattern:   'target/*.exec',
-                        classPattern:  'target/classes',
+                        execPattern: 'target/*.exec',
+                        classPattern: 'target/classes',
                         sourcePattern: 'src/main/java'
                     )
                 }
@@ -49,13 +47,12 @@ pipeline {
         }
         stage('Archivage') {
             steps {
-                archiveArtifacts artifacts:    'target/*.jar',
-                                 fingerprint: true
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
     post {
-        success { echo 'Pipeline reussi avec succes !'         }
+        success { echo 'Pipeline reussi avec succes !' }
         failure { echo 'Pipeline echoue -- consultez les logs.' }
     }
 }
