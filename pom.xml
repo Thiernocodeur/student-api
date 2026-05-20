@@ -52,16 +52,18 @@
 
     <build>
         
-       <plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-checkstyle-plugin</artifactId>
-    <version>3.3.0</version>
-    </plugin>
+  
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+           
+             <plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-checkstyle-plugin</artifactId>
+<version>3.3.0</version>
+</plugin>
 
             <!-- JaCoCo : couverture de code (seuil 70 %) -->
             <plugin>
